@@ -128,6 +128,7 @@ typedef struct hydra_console {
 	thread_t *thread;
 	union {
 		SerialUSBDriver *sdu;
+		SerialDriver *sd;
 		BaseSequentialStream *bss;
 	};
 	t_tokenline *tl;
