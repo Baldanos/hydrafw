@@ -21,9 +21,7 @@
 
 #include "common.h"
 #include "hydrabus.h"
-
-/* ULED PA4 Configured as Output for Test */
-#define ULED_OFF (palClearPad(GPIOA, 4))
+#include "rgb.h"
 
 /*
  * SDIO configuration.
@@ -39,9 +37,7 @@ void hydrabus_init(void)
 	/* Configure PA0 UBTN as Input for test purpose blink test */
 	palSetPadMode(GPIOA, 0, PAL_MODE_INPUT);
 
-	/* Configure PA4 ULED as Output for test purpose blink test */
-	palSetPadMode(GPIOA, 4, PAL_MODE_OUTPUT_PUSHPULL | PAL_STM32_OSPEED_HIGHEST);
-	ULED_OFF;
+	rgb_init();
 
 	/*
 	 * Initializes the SDIO drivers.
