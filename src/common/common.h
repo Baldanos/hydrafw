@@ -29,6 +29,7 @@
 #include "mode_config.h"
 #include "ff.h"
 #include "alloc.h"
+#include "rgb.h"
 
 #define ARRAY_SIZE(x) (sizeof((x))/sizeof((x)[0]))
 
@@ -37,9 +38,9 @@
 
 /* ULED PA4 Configured as Output for Test */
 #undef ULED_ON
-#define ULED_ON  (palSetPad(GPIOA, 4))
+#define ULED_ON  (rgb_set_color(0, 0xff, 0))
 #undef ULED_OFF
-#define ULED_OFF (palClearPad(GPIOA, 4))
+#define ULED_OFF (rgb_set_color(0, 0, 0))
 
 /* PB3 Test */
 #undef TST_ON

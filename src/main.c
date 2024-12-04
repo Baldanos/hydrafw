@@ -45,6 +45,7 @@
 
 #include "bsp.h"
 #include "bsp_print_dbg.h"
+#include "rgb.h"
 
 #include "script.h"
 
@@ -248,7 +249,6 @@ int main(void)
 			sleep_ms = BLINK_FAST;
 		else
 			sleep_ms = BLINK_SLOW;
-		ULED_ON;
 
 		chThdSleepMilliseconds(sleep_ms);
 
@@ -267,7 +267,8 @@ int main(void)
 			*/
 		} else
 			sleep_ms = BLINK_SLOW;
-		ULED_OFF;
+
+		rgb_rainbow();
 
 #ifdef HYDRANFC
 		if(hydranfc_detected == TRUE) {
