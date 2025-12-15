@@ -140,3 +140,29 @@ void bsp_enter_usb_dfu(void)
 		reboot_usb_dfu();
 	}
 }
+
+
+void _close(void)
+{
+}
+
+void _lseek(void)
+{
+
+}
+
+void _read(void)
+{
+}
+
+void _write(void)
+{
+}
+
+void _getpid(void)
+{
+}
+
+void _kill(void)
+{
+}

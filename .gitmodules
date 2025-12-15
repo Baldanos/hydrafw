@@ -7,3 +7,6 @@
 [submodule "contrib/pyHydrabus"]
 	path = contrib/pyHydrabus
 	url = https://github.com/hydrabus/pyHydrabus
+[submodule "stm32f4xx_hal"]
+	path = src/drv/stm32cube/stm32f4xx_hal
+	url = https://github.com/STMicroelectronics/stm32f4xx-hal-driver.git
