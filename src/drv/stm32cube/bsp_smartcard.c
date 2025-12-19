@@ -261,7 +261,7 @@ bsp_status_t bsp_smartcard_read_u8(bsp_dev_smartcard_t dev_num, uint8_t* rx_data
 		*nb_data = hsmartcard->RxXferSize;
 		break;
 	case BSP_TIMEOUT:
-		*nb_data = hsmartcard->RxXferSize - hsmartcard->RxXferCount - 1;
+		*nb_data = hsmartcard->RxXferSize - hsmartcard->RxXferCount;
 		break;
 	case BSP_ERROR:
 	default:

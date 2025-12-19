@@ -274,7 +274,7 @@ bsp_status_t bsp_uart_read_u8(bsp_dev_uart_t dev_num, uint8_t* rx_data, uint8_t 
 		*nb_data = huart->RxXferSize;
 		break;
 	case BSP_TIMEOUT:
-		*nb_data = huart->RxXferSize - huart->RxXferCount - 1;
+		*nb_data = huart->RxXferSize - huart->RxXferCount;
 		break;
 	case BSP_ERROR:
 	default:
