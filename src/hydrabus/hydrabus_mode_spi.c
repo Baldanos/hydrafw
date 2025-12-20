@@ -26,10 +26,16 @@ static int exec(t_hydra_console *con, t_tokenline_parsed *p, int token_pos);
 static int show(t_hydra_console *con, t_tokenline_parsed *p);
 
 static const char* str_pins_spi1= {
-	"CS:   PA15\r\nSCK:  PB3\r\nMISO: PB4\r\nMOSI: PB5\r\n"
+	"CS:   PA15\r\nSCK:  PB3\r\n"
 };
 static const char* str_pins_spi2= {
-	"CS:   PC1 (SW)\r\nSCK:  PB10\r\nMISO: PC2\r\nMOSI: PC3\r\n"
+	"CS:   PC1 (SW)\r\nSCK:  PB10\r\n"
+};
+static const char* str_pins_spi1_io= {
+	"MISO: PB4\r\nMOSI: PB5\r\n"
+};
+static const char* str_pins_spi2_io= {
+	"MISO: PC2\r\nMOSI: PC3\r\n"
 };
 static const char* str_prompt_spi1= { "spi1" PROMPT };
 static const char* str_prompt_spi2= { "spi2" PROMPT };
@@ -75,6 +81,7 @@ static void init_proto_default(t_hydra_console *con)
 	proto->config.spi.dev_polarity = 0;
 	proto->config.spi.dev_phase = 0;
 	proto->config.spi.dev_bit_lsb_msb = DEV_FIRSTBIT_MSB;
+	proto->config.spi.dev_bidir = 0;
 }
 
 static void show_params(t_hydra_console *con)
@@ -82,13 +89,14 @@ static void show_params(t_hydra_console *con)
 	uint8_t i, cnt;
 	mode_config_proto_t* proto = &con->mode->proto;
 
-	cprintf(con, "Device: SPI%d\r\nGPIO resistor: %s\r\nMode: %s\r\n"
+	cprintf(con, "Device: SPI%d\r\nGPIO resistor: %s\r\nMode: %s\r\nBidir: %s\r\n"
 		"Frequency: ",
 		proto->dev_num + 1,
 		proto->config.spi.dev_gpio_pull == MODE_CONFIG_DEV_GPIO_PULLUP ? "pull-up" :
 		proto->config.spi.dev_gpio_pull == MODE_CONFIG_DEV_GPIO_PULLDOWN ? "pull-down" :
 		"floating",
-		proto->config.spi.dev_mode == DEV_MASTER ? "master" : "slave");
+		proto->config.spi.dev_mode == DEV_MASTER ? "master" : "slave",
+		proto->config.spi.dev_bidir == 0 ? "off" : "on");
 
 	print_freq(con, spi_speeds[proto->dev_num][proto->config.spi.dev_speed]);
 	cprintf(con, " (");
@@ -242,6 +250,17 @@ static int exec(t_hydra_console *con, t_tokenline_parsed *p, int token_pos)
 				return t;
 			}
 			break;
+		case T_BIDIR:
+			/* Integer parameter. */
+			t += 2;
+			memcpy(&arg_int, p->buf + p->tokens[t], sizeof(int));
+			if (arg_int > 1 ) {
+				cprintf(con, "Bidir must be 0 or 1.\r\n");
+				return t;
+			}
+			proto->config.spi.dev_bidir = arg_int;
+			bsp_spi_init(proto->dev_num, proto);
+			break;
 		default:
 			return t - token_pos;
 		}
@@ -357,10 +376,21 @@ static int show(t_hydra_console *con, t_tokenline_parsed *p)
 	tokens_used = 0;
 	if (p->tokens[1] == T_PINS) {
 		tokens_used++;
-		if (proto->dev_num == 0)
+		if (proto->dev_num == 0) {
 			cprint(con, str_pins_spi1, strlen(str_pins_spi1));
-		else
+			if (proto->config.spi.dev_bidir == 0) {
+				cprint(con, str_pins_spi1_io, strlen(str_pins_spi1_io));
+			} else {
+				cprintf(con, "IO:   %s\r\n", proto->config.spi.dev_mode == DEV_MASTER ? "PB5" : "PB4");
+			}
+		} else {
 			cprint(con, str_pins_spi2, strlen(str_pins_spi2));
+			if (proto->config.spi.dev_bidir == 0) {
+				cprint(con, str_pins_spi2_io, strlen(str_pins_spi2_io));
+			} else {
+				cprintf(con, "IO:   %s\r\n", proto->config.spi.dev_mode == DEV_MASTER ? "PC3" : "PC2");
+			}
+		}
 	} else {
 		show_params(con);
 	}
