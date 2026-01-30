@@ -1,5 +1,36 @@
 # CHANGELOG of 'hydrafw'
 ----------------------
+
+#### 30.01.2026 - [HydraFW v0.12](https://github.com/bvernoux/hydrafw/releases/tag/v0.12)
+
+##### Generic:
+ * Makefile improvements (Thanks to [ia](https://github.com/ia))
+ * Add CI/CD using github actions (Thanks to [ia](https://github.com/ia) and [seuros](https://github.com/seuros))
+ * Change the python script to generate the DFU file to a C program
+ * Update of the ST drivers, now used as a submodule
+ * Update of the [tokenline](https://github.com/hydrabus/tokenline) module
+ * Improve smartcard timings and add a timeout read (Thanks to [0xDRRB](https://github.com/0xdrrb))
+ * Several fixes (Thanks to [sarg](https://github.com/sarg))
+ * Various fixes (UART, SPI)
+
+##### New protocols:
+ * [SWIO](https://github.com/hydrabus/hydrafw/wiki/HydraFW-1-wire-guide#swio-protocol-interaction) for debugging CH32V003 chips
+ * [Continuity tester mode](https://github.com/hydrabus/hydrafw/wiki/HydraFW-console-commands#continuity-commands)
+ * [SPI Bidir mode](https://github.com/hydrabus/hydrafw/wiki/HydraFW-SPI-guide#bidirectional-mode) (Thanks to [4z0x](https://github.com/4z0x))
+
+##### HydraBus specific:
+* [Console mode](https://github.com/hydrabus/hydrafw/wiki/HydraFW-console-commands)
+  * Add `hd` command to JTAG and 3-wire modes
+  * Add read with timeout feature in all modes.
+  * Add `poke` and `peek` commands in the debug menu
+
+* [Binary mode](https://github.com/hydrabus/hydrafw/wiki/HydraFW-Binary-mode-guide)
+  * [SDIO](https://github.com/hydrabus/hydrafw/wiki/HydraFW-binary-SDIO-mode-guide) support slow and fast frequencies
+
+##### Contrib / script / documentation
+* [Updated UDEV rule](https://github.com/hydrabus/hydrafw/blob/master/utils/udev-rules/09-hydrabus-arch_linux.rules) (Thanks to [dummys](https://github.com/dummys))
+* Add contrib/hydra_spiflash_nor_dump/hydra_spiflash_nor_dump.py script for dumping flash memories using 4 bytes addresses (Thanks to [dummys](https://github.com/dummys))
+
 #### 24.03.2023 - [HydraFW v0.11](https://github.com/bvernoux/hydrafw/releases/tag/v0.11)
 
 Big thanks again to [Baldanos](https://github.com/hydrabus/hydrafw/commits?author=Baldanos) to be the lead developer on HydraFW since 2015 including all major contributions of the project
